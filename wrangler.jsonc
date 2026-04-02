@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "meuplanejamento",
+  "compatibility_date": "2026-04-02",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "Meu planejamento"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
