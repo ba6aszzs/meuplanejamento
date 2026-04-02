@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planejamento Semanal 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --seg: #4A90D9;      --seg-light: #EBF4FF;   --seg-mid: #B8D9F5;
+    --ter: #3DAA6B;      --ter-light: #E8F7EE;   --ter-mid: #A8DFC0;
+    --qua: #C4872A;      --qua-light: #FDF3E3;   --qua-mid: #F0CEA0;
+    --qui: #D46E2A;      --qui-light: #FEF0E6;   --qui-mid: #F5C89A;
+    --sex: #C2426A;      --sex-light: #FDE8F0;   --sex-mid: #F0A8C0;
+    --cream: #FDFAF6;
+    --text: #2C2C2C;
+    --muted: #888;
+    --border: #E8E0D8;
+    --white: #FFFFFF;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+    --header-bg: linear-gradient(135deg, #f9f0f5 0%, #eef5fb 50%, #f0f8f2 100%);
+    --modal-bg: #ffffff;
+    --card-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-focus-bg: #f8f0fc;
+  }
+
+  /* ===== DARK MODE ===== */
+  body.dark-mode {
+    --cream: #1a1520;
+    --text: #e8e0f0;
+    --muted: #8a7a9a;
+    --border: #3a2e4a;
+    --white: #251e32;
+    --shadow: 0 2px 12px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+    --seg-light: #1a2a3d;
+    --ter-light: #1a2e24;
+    --qua-light: #2e2214;
+    --qui-light: #2e1f14;
+    --sex-light: #2e1520;
+    --header-bg: linear-gradient(135deg, #2a1e30 0%, #1e2535 50%, #1e2a22 100%);
+    --modal-bg: #251e32;
+    --card-bg: #251e32;
+    --input-bg: #1e1728;
+    --input-focus-bg: #2e2040;
+  }
+  body.dark-mode header {
+    background: var(--header-bg);
+    border-bottom-color: var(--border);
+  }
+  body.dark-mode .modal { background: var(--modal-bg); }
+  body.dark-mode .modal-overlay { background: rgba(0,0,0,0.7); }
+  body.dark-mode .week-selector,
+  body.dark-mode .day-tabs,
+  body.dark-mode .block-card,
+  body.dark-mode .export-tab { background: var(--card-bg); border-color: var(--border); }
+  body.dark-mode .block-card .block-header { background: var(--card-bg) !important; border-bottom-color: var(--border); }
+  body.dark-mode input[type="text"],
+  body.dark-mode input[type="date"],
+  body.dark-mode textarea,
+  body.dark-mode select { background: var(--input-bg); color: var(--text); border-color: var(--border); }
+  body.dark-mode input:focus, body.dark-mode textarea:focus, body.dark-mode select:focus { border-color: #a070d0; }
+  body.dark-mode .block-name-input:focus { background: var(--input-focus-bg); border-color: #a070d0; }
+  body.dark-mode .time-input { background: var(--input-bg); border-color: var(--border); color: var(--text); }
+  body.dark-mode .btn-secondary { background: var(--card-bg); color: #c090e0; border-color: #6040a0; }
+  body.dark-mode .btn-secondary:hover { background: #3a2e4a; }
+  body.dark-mode .btn-danger { background: var(--card-bg); color: #e06090; border-color: #8a3060; }
+  body.dark-mode .btn-danger:hover { background: #3a2030; }
+  body.dark-mode .week-chip { background: var(--card-bg); border-color: var(--border); color: var(--muted); }
+  body.dark-mode .btn-new-week { color: #c090e0; border-color: #6040a0; }
+  body.dark-mode .btn-new-week:hover { background: #2e2040; }
+  body.dark-mode .day-tab { color: var(--muted); background: transparent; }
+  body.dark-mode .add-block-btn { color: var(--muted); border-color: var(--border); }
+  body.dark-mode .add-block-btn:hover { border-color: #a070d0; color: #c090e0; background: #2e2040; }
+  body.dark-mode .toast { background: #3a2e4a; color: var(--text); }
+  body.dark-mode .logo h1 { color: #c090e0; }
+  body.dark-mode .modal h3 { color: #c090e0; }
+  body.dark-mode .week-selector h2 { color: #c090e0; }
+  body.dark-mode .share-option { background: var(--card-bg); border-color: var(--border); }
+  body.dark-mode .share-option:hover { border-color: #a070d0; background: #2e2040; }
+  body.dark-mode .export-tab { color: var(--text); }
+  body.dark-mode .export-tab.active { background: linear-gradient(135deg,#7a4fa8,#c2426a); color: white; }
+  body.dark-mode [data-active-day="seg"] .block-card { background: var(--seg-light); }
+  body.dark-mode [data-active-day="ter"] .block-card { background: var(--ter-light); }
+  body.dark-mode [data-active-day="qua"] .block-card { background: var(--qua-light); }
+  body.dark-mode [data-active-day="qui"] .block-card { background: var(--qui-light); }
+  body.dark-mode [data-active-day="sex"] .block-card { background: var(--sex-light); }
+
+  /* Dark mode toggle button */
+  .btn-theme-toggle {
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 7px 13px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--muted);
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .btn-theme-toggle:hover { border-color: #7a4fa8; color: #7a4fa8; background: #f8f0fc; }
+  body.dark-mode .btn-theme-toggle:hover { background: #2e2040; color: #c090e0; border-color: #a070d0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .deco-lily {
+    display: inline-block; width: 28px; height: 28px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cellipse cx='50' cy='30' rx='12' ry='28' fill='%23e8b4c8' opacity='0.9'/%3E%3Cellipse cx='50' cy='30' rx='12' ry='28' fill='%23e8b4c8' transform='rotate(72 50 50)'/%3E%3Cellipse cx='50' cy='30' rx='12' ry='28' fill='%23f0c8da' transform='rotate(144 50 50)'/%3E%3Cellipse cx='50' cy='30' rx='12' ry='28' fill='%23e8b4c8' transform='rotate(216 50 50)'/%3E%3Cellipse cx='50' cy='30' rx='12' ry='28' fill='%23f0c8da' transform='rotate(288 50 50)'/%3E%3Ccircle cx='50' cy='50' r='8' fill='%23f7e08a'/%3E%3C/svg%3E") no-repeat center/contain;
+  }
+  .deco-butterfly {
+    display: inline-block; width: 28px; height: 22px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 80'%3E%3Cellipse cx='30' cy='30' rx='28' ry='22' fill='%23b8d4f0' opacity='0.85'/%3E%3Cellipse cx='30' cy='55' rx='20' ry='18' fill='%23a0c4e8' opacity='0.75'/%3E%3Cellipse cx='90' cy='30' rx='28' ry='22' fill='%23b8d4f0' opacity='0.85'/%3E%3Cellipse cx='90' cy='55' rx='20' ry='18' fill='%23a0c4e8' opacity='0.75'/%3E%3Crect x='58' y='10' width='4' height='60' rx='2' fill='%23555'/%3E%3Cpath d='M60 10 Q55 2 52 0' stroke='%23555' stroke-width='2' fill='none'/%3E%3Cpath d='M60 10 Q65 2 68 0' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat center/contain;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--header-bg);
+    border-bottom: 2px solid var(--border);
+    padding: 0 16px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  .header-inner {
+    max-width: 900px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 0; gap: 12px;
+  }
+  .logo { display: flex; align-items: center; gap: 8px; }
+  .logo h1 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: #6b4a7a; line-height: 1.1; }
+  .logo span { display: block; font-family: 'Lato', sans-serif; font-size: 0.7rem; font-weight: 300; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .btn { padding: 8px 16px; border: none; border-radius: 20px; cursor: pointer; font-family: 'Lato', sans-serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.3px; transition: all 0.2s; display: flex; align-items: center; gap: 5px; }
+  .btn-primary { background: linear-gradient(135deg, #7a4fa8, #c2426a); color: white; box-shadow: 0 2px 8px rgba(122,79,168,0.3); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(122,79,168,0.4); }
+  .btn-secondary { background: white; color: #6b4a7a; border: 1.5px solid #d4b8e0; }
+  .btn-secondary:hover { background: #f8f0fc; }
+  .btn-success { background: linear-gradient(135deg, #25D366, #128C7E); color: white; box-shadow: 0 2px 8px rgba(37,211,102,0.3); }
+  .btn-success:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(37,211,102,0.4); }
+  .btn-danger { background: white; color: #c2426a; border: 1.5px solid #f0a8c0; font-size: 0.75rem; padding: 6px 12px; }
+  .btn-danger:hover { background: #fde8f0; }
+
+  /* ===== MAIN ===== */
+  main { max-width: 900px; margin: 0 auto; padding: 20px 16px 60px; }
+
+  /* ===== WEEK SELECTOR ===== */
+  .week-selector { background: white; border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: var(--shadow); border: 1.5px solid var(--border); }
+  .week-selector h2 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #6b4a7a; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .week-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .week-chip { padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: white; cursor: pointer; font-size: 0.8rem; font-weight: 700; color: var(--muted); transition: all 0.2s; }
+  .week-chip.active { background: linear-gradient(135deg, #7a4fa8, #c2426a); color: white; border-color: transparent; box-shadow: 0 2px 8px rgba(122,79,168,0.3); }
+  .week-chip:hover:not(.active) { border-color: #c2426a; color: #c2426a; }
+  .btn-new-week { padding: 7px 16px; border: 2px dashed #d4b8e0; border-radius: 20px; background: transparent; cursor: pointer; font-size: 0.8rem; color: #7a4fa8; font-weight: 700; transition: all 0.2s; }
+  .btn-new-week:hover { background: #f8f0fc; }
+  .week-header-info { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; padding-top: 14px; border-top: 1px solid var(--border); }
+
+  /* ===== FORM ===== */
+  .field-group { display: flex; flex-direction: column; gap: 4px; }
+  label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+  input[type="text"], input[type="date"], textarea, select { border: 1.5px solid var(--border); border-radius: 10px; padding: 9px 12px; font-family: 'Lato', sans-serif; font-size: 0.88rem; color: var(--text); background: white; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; resize: vertical; }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: #7a4fa8; box-shadow: 0 0 0 3px rgba(122,79,168,0.1); }
+  textarea { min-height: 70px; }
+
+  /* ===== DAY TABS ===== */
+  .day-tabs { display: flex; gap: 4px; background: white; border-radius: 14px; padding: 5px; margin-bottom: 16px; box-shadow: var(--shadow); border: 1.5px solid var(--border); overflow-x: auto; }
+  .day-tab { flex: 1; min-width: 70px; padding: 9px 6px; border: none; border-radius: 10px; cursor: pointer; font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.8rem; background: transparent; color: var(--muted); transition: all 0.2s; text-align: center; white-space: nowrap; }
+  .day-tab[data-day="seg"].active { background: var(--seg); color: white; }
+  .day-tab[data-day="ter"].active { background: var(--ter); color: white; }
+  .day-tab[data-day="qua"].active { background: var(--qua); color: white; }
+  .day-tab[data-day="qui"].active { background: var(--qui); color: white; }
+  .day-tab[data-day="sex"].active { background: var(--sex); color: white; }
+  .day-tab[data-day="seg"]:hover:not(.active) { background: var(--seg-light); color: var(--seg); }
+  .day-tab[data-day="ter"]:hover:not(.active) { background: var(--ter-light); color: var(--ter); }
+  .day-tab[data-day="qua"]:hover:not(.active) { background: var(--qua-light); color: var(--qua); }
+  .day-tab[data-day="qui"]:hover:not(.active) { background: var(--qui-light); color: var(--qui); }
+  .day-tab[data-day="sex"]:hover:not(.active) { background: var(--sex-light); color: var(--sex); }
+
+  /* ===== DAY CONTENT ===== */
+  .day-content { display: none; flex-direction: column; gap: 12px; animation: fadeIn 0.25s ease; }
+  .day-content.visible { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .day-date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* ===== BLOCK CARD ===== */
+  .block-card { background: white; border-radius: 14px; border-left: 4px solid transparent; box-shadow: var(--shadow); overflow: hidden; transition: box-shadow 0.2s, opacity 0.2s; position: relative; }
+  .block-card:focus-within { box-shadow: var(--shadow-lg); }
+  .block-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px 8px; border-bottom: 1px solid #f0f0f0; gap: 8px; }
+  .block-title-row { display: flex; align-items: center; gap: 8px; flex: 1; }
+  .block-icon { font-size: 1rem; }
+  .block-name-input { font-weight: 700; font-size: 0.9rem; border: none; padding: 3px 6px; border-radius: 6px; background: transparent; flex: 1; min-width: 80px; }
+  .block-name-input:focus { background: #f8f0fc; box-shadow: none; border: 1.5px solid #d4b8e0; }
+  .block-time-row { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+  .time-input { width: 64px; padding: 4px 6px; font-size: 0.78rem; border-radius: 6px; border: 1px solid var(--border); text-align: center; background: #fafafa; }
+  .time-input:focus { border-color: #7a4fa8; box-shadow: 0 0 0 2px rgba(122,79,168,0.1); }
+  .block-remove { background: none; border: none; cursor: pointer; color: #ddd; font-size: 1.1rem; line-height: 1; padding: 2px 4px; border-radius: 4px; transition: color 0.15s, background 0.15s; }
+  .block-remove:hover { color: #c2426a; background: #fde8f0; }
+  .block-body { padding: 10px 14px 12px; }
+  .block-desc { min-height: 58px; }
+
+  /* ===== DRAG HANDLE ===== */
+  .drag-handle {
+    cursor: grab;
+    color: #ccc;
+    font-size: 1.1rem;
+    padding: 4px 6px 4px 2px;
+    line-height: 1;
+    flex-shrink: 0;
+    user-select: none;
+    transition: color 0.15s;
+  }
+  .drag-handle:active { cursor: grabbing; }
+  .block-card:hover .drag-handle { color: #bbb; }
+  .block-card[data-drag-active="true"] { opacity: 0.4; box-shadow: none; }
+  .block-card.drag-over {
+    box-shadow: 0 0 0 2px #7a4fa8, var(--shadow-lg) !important;
+  }
+  .drop-indicator {
+    height: 4px;
+    background: linear-gradient(90deg, #7a4fa8, #c2426a);
+    border-radius: 2px;
+    margin: -6px 0;
+    display: none;
+  }
+  .drop-indicator.visible { display: block; }
+
+  [data-active-day="seg"] .block-card { border-left-color: var(--seg); background: var(--seg-light); }
+  [data-active-day="seg"] .block-card .block-header { background: white; }
+  [data-active-day="ter"] .block-card { border-left-color: var(--ter); background: var(--ter-light); }
+  [data-active-day="ter"] .block-card .block-header { background: white; }
+  [data-active-day="qua"] .block-card { border-left-color: var(--qua); background: var(--qua-light); }
+  [data-active-day="qua"] .block-card .block-header { background: white; }
+  [data-active-day="qui"] .block-card { border-left-color: var(--qui); background: var(--qui-light); }
+  [data-active-day="qui"] .block-card .block-header { background: white; }
+  [data-active-day="sex"] .block-card { border-left-color: var(--sex); background: var(--sex-light); }
+  [data-active-day="sex"] .block-card .block-header { background: white; }
+
+  .add-block-btn { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; border: 2px dashed var(--border); border-radius: 12px; background: transparent; cursor: pointer; color: var(--muted); font-size: 0.83rem; font-weight: 700; transition: all 0.2s; width: 100%; }
+  .add-block-btn:hover { border-color: #7a4fa8; color: #7a4fa8; background: #f8f0fc; }
+
+  /* ===== TOAST ===== */
+  .toast { position: fixed; bottom: 24px; right: 24px; background: #2C2C2C; color: white; padding: 12px 20px; border-radius: 12px; font-size: 0.85rem; box-shadow: var(--shadow-lg); transform: translateY(60px); opacity: 0; transition: all 0.3s; z-index: 999; }
+  .toast.show { transform: none; opacity: 1; }
+
+  /* ===== MODAL ===== */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 500; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: white; border-radius: 20px; padding: 28px; width: 100%; max-width: 420px; box-shadow: var(--shadow-lg); }
+  .modal h3 { font-family: 'Playfair Display', serif; color: #6b4a7a; margin-bottom: 16px; font-size: 1.2rem; }
+  .modal-fields { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+  /* ===== SHARE MODAL ===== */
+  .share-modal { max-width: 480px; }
+  .share-modal h3 { font-size: 1.1rem; }
+  .share-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .share-option { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; border: 1.5px solid var(--border); cursor: pointer; transition: all 0.18s; background: white; width: 100%; font-family: 'Lato', sans-serif; text-align: left; }
+  .share-option:hover { border-color: #7a4fa8; background: #f8f0fc; }
+  .share-option .share-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .share-option .share-text strong { display: block; font-size: 0.9rem; font-weight: 700; color: var(--text); }
+  .share-option .share-text span { font-size: 0.78rem; color: var(--muted); }
+  .share-option.whatsapp:hover { border-color: #25D366; background: #f0fff4; }
+  .share-option.print-opt:hover { border-color: #4A90D9; background: #EBF4FF; }
+
+  /* ===== EMPTY STATE ===== */
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+  .empty-state .big-emoji { font-size: 3rem; margin-bottom: 12px; }
+  .empty-state p { font-size: 0.9rem; }
+
+  /* ===== PRINT PREVIEW ===== */
+  #print-preview { display: none; }
+
+  /* ===== PRINT — cartões recortáveis por bloco ===== */
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm 10mm 12mm;
+    }
+    @page .print-landscape {
+      size: A4 landscape;
+    }
+
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body > *:not(#print-preview) { display: none !important; }
+    #print-preview { display: block !important; }
+
+    .print-week { font-family: 'Lato', Arial, sans-serif; }
+
+    /* Cabeçalho da semana */
+    .print-week-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 13pt;
+      color: #6b4a7a;
+      border-bottom: 2pt solid #d4b8e0;
+      padding-bottom: 5pt;
+      margin-bottom: 8pt;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      page-break-after: avoid;
+    }
+    .print-week-title .pw-left strong { font-size: 13pt; }
+    .print-week-title .pw-left small { font-size: 8.5pt; color: #888; font-weight: 400; display: block; margin-top: 2pt; }
+    .print-school-info { font-size: 8.5pt; font-family: 'Lato', Arial, sans-serif; color: #888; font-weight: 400; text-align: right; line-height: 1.6; }
+    .print-school-info strong { color: #555; }
+
+    .print-days-grid { display: block; }
+    .print-day { display: block; }
+
+    /* Faixa colorida do dia */
+    .print-day-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5pt 10pt 4pt;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 11pt;
+      font-weight: 700;
+      color: white;
+      border-radius: 3mm 3mm 0 0;
+      margin-top: 6pt;
+      page-break-after: avoid;
+    }
+    .print-day[data-d="seg"] .print-day-header { background: #4A90D9; }
+    .print-day[data-d="ter"] .print-day-header { background: #3DAA6B; }
+    .print-day[data-d="qua"] .print-day-header { background: #C4872A; }
+    .print-day[data-d="qui"] .print-day-header { background: #D46E2A; }
+    .print-day[data-d="sex"] .print-day-header { background: #C2426A; }
+    .print-day-date { font-size: 9pt; font-weight: 300; color: rgba(255,255,255,0.9); }
+
+    /* Blocos empilhados em coluna única */
+    .print-blocks { display: flex; flex-direction: column; }
+
+    /* === CARTÃO RECORTÁVEL: linha tracejada embaixo === */
+    .print-block {
+      border-left: 4pt solid transparent;
+      border-bottom: 1.5pt dashed #bbb;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      padding: 8pt 12pt 9pt 12pt;
+    }
+    .print-block:last-child { border-bottom: 2pt solid #ccc; }
+
+    /* Linha superior: ícone + nome à esquerda, horário à direita — igual à tela */
+    .print-block-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8pt;
+      margin-bottom: 4pt;
+    }
+    .print-block-name {
+      font-weight: 700;
+      font-size: 11pt;
+      flex: 1;
+    }
+    .print-block-time {
+      font-size: 10pt;
+      font-weight: 400;
+      color: #555;
+      white-space: nowrap;
+      border: 0.7pt solid #ddd;
+      border-radius: 4pt;
+      padding: 1pt 7pt;
+      background: rgba(255,255,255,0.75);
+    }
+
+    /* Descrição */
+    .print-block-desc {
+      font-size: 9.5pt;
+      line-height: 1.65;
+      color: #3a3a3a;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Cor de fundo e borda esquerda por dia */
+    .print-day[data-d="seg"] .print-block { background: #EBF4FF; border-left-color: #4A90D9; }
+    .print-day[data-d="seg"] .print-block-name { color: #1a4f8a; }
+    .print-day[data-d="ter"] .print-block { background: #E8F7EE; border-left-color: #3DAA6B; }
+    .print-day[data-d="ter"] .print-block-name { color: #155e30; }
+    .print-day[data-d="qua"] .print-block { background: #FDF3E3; border-left-color: #C4872A; }
+    .print-day[data-d="qua"] .print-block-name { color: #7a4e08; }
+    .print-day[data-d="qui"] .print-block { background: #FEF0E6; border-left-color: #D46E2A; }
+    .print-day[data-d="qui"] .print-block-name { color: #8a3800; }
+    .print-day[data-d="sex"] .print-block { background: #FDE8F0; border-left-color: #C2426A; }
+    .print-day[data-d="sex"] .print-block-name { color: #8a1238; }
+
+    .print-deco { text-align: center; font-size: 8pt; color: #c8a0d8; margin-top: 7pt; letter-spacing: 4px; }
+  }
+
+.export-tabs{display:flex;gap:6px;margin-bottom:16px;}
+.export-tab{flex:1;padding:10px;border-radius:10px;border:1px solid var(--border);background:white;cursor:pointer;font-weight:700;}
+.export-tab.active{background:linear-gradient(135deg,#7a4fa8,#c2426a);color:white;}
+.export-tab-content{display:none;}
+.export-tab-content.active{display:block;}
+.layout-radio{display:flex;flex-direction:column;gap:8px;}
+.week-checkbox{display:flex;gap:6px;margin-bottom:6px;}
+
+/* ===== LAYOUT CARD RADIO ===== */
+.layout-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 4px; }
+.layout-card { border: 2px solid var(--border); border-radius: 12px; padding: 10px 8px; cursor: pointer; text-align: center; transition: all 0.2s; background: var(--card-bg, white); }
+.layout-card:hover { border-color: #7a4fa8; background: #f8f0fc; }
+.layout-card input[type="radio"] { display: none; }
+.layout-card.selected { border-color: #7a4fa8; background: #f0e8fc; box-shadow: 0 0 0 2px rgba(122,79,168,0.2); }
+body.dark-mode .layout-card.selected { background: #2e2040; }
+body.dark-mode .layout-card:hover { background: #2e2040; }
+.layout-card-preview { font-size: 1.4rem; margin-bottom: 4px; }
+.layout-card-label { font-size: 0.73rem; font-weight: 700; color: var(--text); display: block; }
+.layout-card-sub { font-size: 0.65rem; color: var(--muted); display: block; margin-top: 2px; }
+
+/* ===== WEEK CHECKBOXES ===== */
+.week-check-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.week-check-chip { display: flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--card-bg, white); cursor: pointer; font-size: 0.78rem; font-weight: 700; color: var(--muted); transition: all 0.2s; }
+.week-check-chip input { display: none; }
+.week-check-chip.checked { background: linear-gradient(135deg,#7a4fa8,#c2426a); color: white; border-color: transparent; }
+.week-check-chip:hover:not(.checked) { border-color: #c2426a; color: #c2426a; }
+
+/* ===== ICON PICKER MODAL ===== */
+.icon-picker-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 800; align-items: center; justify-content: center; padding: 20px; }
+.icon-picker-overlay.open { display: flex; }
+.icon-picker-modal { background: var(--modal-bg, white); border-radius: 20px; padding: 24px; width: 100%; max-width: 360px; box-shadow: var(--shadow-lg); }
+.icon-picker-modal h4 { font-family: 'Playfair Display', serif; color: #6b4a7a; margin-bottom: 4px; font-size: 1rem; }
+body.dark-mode .icon-picker-modal h4 { color: #c090e0; }
+.icon-picker-modal p { font-size: 0.75rem; color: var(--muted); margin-bottom: 14px; }
+.icon-search-input { width: 100%; padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 0.88rem; margin-bottom: 12px; background: var(--input-bg, white); color: var(--text); font-family: 'Lato', sans-serif; }
+.icon-search-input:focus { outline: none; border-color: #7a4fa8; }
+.icon-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; max-height: 240px; overflow-y: auto; }
+.icon-btn { font-size: 1.4rem; padding: 8px; border: 2px solid transparent; border-radius: 10px; cursor: pointer; background: var(--cream); transition: all 0.15s; text-align: center; line-height: 1; }
+.icon-btn:hover { border-color: #7a4fa8; background: #f8f0fc; transform: scale(1.1); }
+body.dark-mode .icon-btn { background: #2e2040; }
+body.dark-mode .icon-btn:hover { background: #3e3060; }
+.icon-custom-row { display: flex; gap: 8px; margin-top: 12px; }
+.icon-custom-input { flex: 1; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 1.1rem; text-align: center; background: var(--input-bg, white); color: var(--text); font-family: 'Lato', sans-serif; }
+.icon-picker-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="deco-lily"></span>
+      <div>
+        <h1>Meu Planejamento</h1>
+        <span>professora bianca • G4</span>
+      </div>
+      <span class="deco-butterfly"></span>
+    </div>
+    <div class="header-actions">
+      <button class="btn-theme-toggle" id="btn-dark-toggle" onclick="toggleDarkMode()" title="Alternar tema escuro/claro">🌙</button>
+      <button class="btn btn-secondary" onclick="openNewWeek()">✨ Nova Semana</button>
+      <button class="btn btn-primary" onclick="openShareModal()">🖨️ Gerar PDF</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="week-selector">
+    <h2><span class="deco-lily"></span> Semanas</h2>
+    <div class="week-list" id="week-list"></div>
+    <div id="week-meta" class="week-header-info" style="display:none">
+      <div class="field-group">
+        <label>Professora</label>
+        <input type="text" id="meta-prof" placeholder="Ex: Bianca" oninput="saveMeta()">
+      </div>
+      <div class="field-group">
+        <label>Turma</label>
+        <input type="text" id="meta-turma" placeholder="Ex: G4" oninput="saveMeta()">
+      </div>
+      <div class="field-group">
+        <label>Número da semana</label>
+        <input type="text" id="meta-num" placeholder="Ex: 01" oninput="saveMeta()">
+      </div>
+    </div>
+  </div>
+
+  <div id="planner-area" style="display:none">
+    <div class="day-tabs" role="tablist" id="day-tabs">
+      <button class="day-tab active" data-day="seg" onclick="switchDay('seg')">☀️ Segunda</button>
+      <button class="day-tab" data-day="ter" onclick="switchDay('ter')">🌿 Terça</button>
+      <button class="day-tab" data-day="qua" onclick="switchDay('qua')">🌻 Quarta</button>
+      <button class="day-tab" data-day="qui" onclick="switchDay('qui')">🦋 Quinta</button>
+      <button class="day-tab" data-day="sex" onclick="switchDay('sex')">🌸 Sexta</button>
+    </div>
+    <div id="day-seg" class="day-content visible" data-active-day="seg"></div>
+    <div id="day-ter" class="day-content" data-active-day="ter"></div>
+    <div id="day-qua" class="day-content" data-active-day="qua"></div>
+    <div id="day-qui" class="day-content" data-active-day="qui"></div>
+    <div id="day-sex" class="day-content" data-active-day="sex"></div>
+  </div>
+
+  <div id="empty-state" class="empty-state">
+    <div class="big-emoji">🌸</div>
+    <p>Clique em <strong>Nova Semana</strong> para começar o planejamento!</p>
+  </div>
+</main>
+
+<!-- MODAL: NOVA SEMANA -->
+<div class="modal-overlay" id="modal-new-week">
+  <div class="modal">
+    <h3>🌸 Nova Semana</h3>
+    <div class="modal-fields">
+      <div class="field-group">
+        <label>Professora</label>
+        <input type="text" id="nw-prof" placeholder="Ex: Bianca">
+      </div>
+      <div class="field-group">
+        <label>Turma</label>
+        <input type="text" id="nw-turma" placeholder="Ex: G4">
+      </div>
+      <div class="field-group">
+        <label>Número da semana</label>
+        <input type="text" id="nw-num" placeholder="Ex: 01">
+      </div>
+      <div class="field-group">
+        <label>Data de início (Segunda)</label>
+        <input type="date" id="nw-start">
+      </div>
+      <div class="field-group">
+        <label>Data de fim (Sexta)</label>
+        <input type="date" id="nw-end">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" onclick="closeModal('modal-new-week')">Cancelar</button>
+      <button class="btn btn-primary" onclick="createWeek()">Criar ✨</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: COMPARTILHAR -->
+
+<div class="modal-overlay" id="modal-share">
+  <div class="modal share-modal" style="max-width:600px;">
+    <h3>📤 Exportar Planejamento</h3>
+
+    <div class="export-tabs">
+      <button class="export-tab active" onclick="switchExportTab('simple')">⚡ Simples</button>
+      <button class="export-tab" onclick="switchExportTab('modular')">🧩 Modular</button>
+    </div>
+
+    <!-- ABA SIMPLES -->
+    <div id="tab-simple" class="export-tab-content active">
+      <p style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">Gera o PDF no modelo padrão (layout atual) para a semana selecionada.</p>
+      <div class="field-group" style="margin-bottom:16px;">
+        <label>Selecionar semana</label>
+        <select id="simple-week-select" style="margin-top:4px;"></select>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-secondary" onclick="doSimplePrint()">🖨️ Imprimir / Salvar PDF</button>
+      </div>
+    </div>
+
+    <!-- ABA MODULAR -->
+    <div id="tab-modular" class="export-tab-content">
+      <p style="font-size:0.8rem;color:var(--muted);margin-bottom:14px;">Escolha o layout e selecione as semanas desejadas.</p>
+
+      <div class="field-group" style="margin-bottom:16px;">
+        <label>Layout do PDF</label>
+        <div class="layout-cards" id="layout-cards">
+          <div class="layout-card selected" data-layout="compact" onclick="selectLayout(this,'compact')">
+            <div class="layout-card-preview">📋</div>
+            <span class="layout-card-label">Compacto</span>
+            <span class="layout-card-sub">Padrão atual</span>
+          </div>
+          <div class="layout-card" data-layout="detailed" onclick="selectLayout(this,'detailed')">
+            <div class="layout-card-preview">📄</div>
+            <span class="layout-card-label">Detalhado</span>
+            <span class="layout-card-sub">Mais espaço p/ texto</span>
+          </div>
+          <div class="layout-card" data-layout="horizontal" onclick="selectLayout(this,'horizontal')">
+            <div class="layout-card-preview">📊</div>
+            <span class="layout-card-label">Horizontal</span>
+            <span class="layout-card-sub">Dias em colunas</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group" style="margin-bottom:16px;">
+        <label>Semanas a incluir</label>
+        <div class="week-check-list" id="modular-week-list"></div>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-primary" onclick="doModularPDF()">
+          🖨️ Imprimir / Salvar PDF
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:16px;">
+      <button class="btn btn-danger" onclick="closeModal('modal-share')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: SELETOR DE ÍCONES -->
+<div class="icon-picker-overlay" id="icon-picker-overlay">
+  <div class="icon-picker-modal">
+    <h4>🎨 Escolher ícone</h4>
+    <p>Clique num ícone para aplicar ao bloco</p>
+    <input class="icon-search-input" type="text" placeholder="🔍 Filtrar ícones..." id="icon-search" oninput="filterIcons()">
+    <div class="icon-grid" id="icon-grid"></div>
+    <div class="icon-custom-row">
+      <input class="icon-custom-input" type="text" id="icon-custom-input" placeholder="Cole um emoji aqui..." maxlength="8">
+      <button class="btn btn-primary" onclick="applyCustomIcon()">Usar</button>
+    </div>
+    <div class="icon-picker-actions">
+      <button class="btn btn-danger" onclick="closeIconPicker()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div id="print-preview"></div>
+
+<script>
+// ===== STATE =====
+let state = { weeks: [], activeWeek: null, activeDay: 'seg' };
+const DAYS = ['seg','ter','qua','qui','sex'];
+const DAY_NAMES = { seg: 'Segunda', ter: 'Terça', qua: 'Quarta', qui: 'Quinta', sex: 'Sexta' };
+const DAY_ICONS = { seg: '☀️', ter: '🌿', qua: '🌻', qui: '🦋', sex: '🌸' };
+
+// Blocos padrão
+const DEFAULT_BLOCKS = [
+  { name: 'Acolhimento', icon: '🤝', timeStart: '13:15', timeEnd: '13:20', desc: 'Roda de conversa sobre os combinados da sala, trabalhando de forma organizada e acolhedora.', locked: false },
+  { name: 'Atividade', icon: '✏️', timeStart: '13:20', timeEnd: '14:40', desc: '', locked: false },
+  { name: 'Lanche', icon: '🍎', timeStart: '15:00', timeEnd: '15:15', desc: 'Momento destinado ao lanche, promovendo hábitos de alimentação saudável, autonomia e convivência social. Valorização da organização, higiene e compartilhamento, incentivando atitudes de respeito, colaboração e bons modos à mesa.', locked: true },
+  { name: 'Parque', icon: '🌳', timeStart: '16:00', timeEnd: '16:30', desc: 'Relembrar os combinados do parque de forma coletiva, promovendo a convivência respeitosa e cuidado com os colegas.', locked: true },
+  { name: 'Inglês', icon: '🌍', timeStart: '16:30', timeEnd: '17:15', desc: '', locked: false },
+  { name: 'Material', icon: '📦', timeStart: '', timeEnd: '', desc: '', locked: false },
+];
+
+// ===== STORAGE =====
+function load() {
+  try { const s = localStorage.getItem('planState_g4'); if (s) state = JSON.parse(s); } catch(e) {}
+}
+function save() { localStorage.setItem('planState_g4', JSON.stringify(state)); }
+
+// ===== WEEK =====
+function openNewWeek() {
+  const last = state.weeks[state.weeks.length - 1];
+  if (last) {
+    document.getElementById('nw-prof').value = last.prof || '';
+    document.getElementById('nw-turma').value = last.turma || '';
+  }
+  document.getElementById('nw-num').value = String(state.weeks.length + 1).padStart(2,'0');
+  document.getElementById('modal-new-week').classList.add('open');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function createWeek() {
+  const prof  = document.getElementById('nw-prof').value.trim() || 'Professora';
+  const turma = document.getElementById('nw-turma').value.trim() || '';
+  const num   = document.getElementById('nw-num').value.trim() || String(state.weeks.length + 1).padStart(2,'0');
+  const start = document.getElementById('nw-start').value;
+  const end   = document.getElementById('nw-end').value;
+
+  const week = { id: Date.now().toString(), num, prof, turma, start, end, days: {} };
+
+  DAYS.forEach((d, i) => {
+    let date = '';
+    if (start) {
+      const dt = new Date(start + 'T12:00:00');
+      dt.setDate(dt.getDate() + i);
+      date = dt.toISOString().slice(0, 10);
+    }
+    week.days[d] = {
+      date,
+      blocks: DEFAULT_BLOCKS.map(b => ({ ...b, id: Math.random().toString(36).slice(2) }))
+    };
+  });
+
+  state.weeks.push(week);
+  state.activeWeek = week.id;
+  save();
+  closeModal('modal-new-week');
+  renderAll();
+  toast('Semana ' + num + ' criada! 🌸');
+}
+
+function selectWeek(id) { state.activeWeek = id; save(); renderAll(); }
+
+function deleteWeek(id, e) {
+  e.stopPropagation();
+  if (!confirm('Apagar essa semana?')) return;
+  state.weeks = state.weeks.filter(w => w.id !== id);
+  if (state.activeWeek === id) state.activeWeek = state.weeks.length ? state.weeks[state.weeks.length-1].id : null;
+  save(); renderAll(); toast('Semana removida.');
+}
+
+function saveMeta() {
+  const w = getActiveWeek(); if (!w) return;
+  w.prof  = document.getElementById('meta-prof').value;
+  w.turma = document.getElementById('meta-turma').value;
+  w.num   = document.getElementById('meta-num').value;
+  save();
+}
+
+function getActiveWeek() { return state.weeks.find(w => w.id === state.activeWeek) || null; }
+
+// ===== DAY =====
+function switchDay(day) {
+  state.activeDay = day;
+  DAYS.forEach(d => {
+    document.querySelector(`.day-tab[data-day="${d}"]`).classList.toggle('active', d === day);
+    document.getElementById('day-' + d).classList.toggle('visible', d === day);
+  });
+  save();
+}
+
+// ===== BLOCKS =====
+function addBlock(dayKey) {
+  const w = getActiveWeek(); if (!w) return;
+  const block = { id: Math.random().toString(36).slice(2), name: 'Novo bloco', icon: '📝', timeStart: '', timeEnd: '', desc: '', locked: false };
+  w.days[dayKey].blocks.push(block);
+  save(); renderDay(dayKey); toast('Bloco adicionado!');
+}
+
+function removeBlock(dayKey, blockId) {
+  const w = getActiveWeek(); if (!w) return;
+  const block = w.days[dayKey].blocks.find(b => b.id === blockId);
+  if (block && block.locked) { toast('Este bloco é fixo. Edite o texto se necessário.'); return; }
+  w.days[dayKey].blocks = w.days[dayKey].blocks.filter(b => b.id !== blockId);
+  save(); renderDay(dayKey);
+}
+
+function updateBlock(dayKey, blockId, field, value) {
+  const w = getActiveWeek(); if (!w) return;
+  const block = w.days[dayKey].blocks.find(b => b.id === blockId);
+  if (block) { block[field] = value; save(); }
+}
+
+function updateDayDate(dayKey, value) {
+  const w = getActiveWeek(); if (!w) return;
+  w.days[dayKey].date = value; save();
+}
+
+// ===== DRAG & DROP =====
+let dragState = null;
+
+function initDragDrop(dayKey) {
+  const panel = document.getElementById('day-' + dayKey);
+  if (!panel) return;
+
+  const cards = panel.querySelectorAll('.block-card[data-block-id]');
+  cards.forEach(card => {
+    const handle = card.querySelector('.drag-handle');
+    if (!handle) return;
+
+    handle.addEventListener('mousedown', (e) => startDrag(e, card, dayKey));
+    handle.addEventListener('touchstart', (e) => startDragTouch(e, card, dayKey), { passive: false });
+  });
+}
+
+function startDrag(e, card, dayKey) {
+  e.preventDefault();
+  const blockId = card.dataset.blockId;
+  dragState = { blockId, dayKey, sourceCard: card, clone: null, startY: e.clientY, offsetY: 0 };
+
+  const rect = card.getBoundingClientRect();
+  dragState.offsetY = e.clientY - rect.top;
+
+  const clone = card.cloneNode(true);
+  clone.style.cssText = `position:fixed;left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;opacity:0.85;z-index:9999;pointer-events:none;box-shadow:0 12px 40px rgba(0,0,0,0.2);transition:none;border-radius:14px;`;
+  document.body.appendChild(clone);
+  dragState.clone = clone;
+  card.setAttribute('data-drag-active', 'true');
+
+  document.addEventListener('mousemove', onDragMove);
+  document.addEventListener('mouseup', onDragEnd);
+}
+
+function startDragTouch(e, card, dayKey) {
+  const touch = e.touches[0];
+  e.preventDefault();
+  const blockId = card.dataset.blockId;
+  dragState = { blockId, dayKey, sourceCard: card, clone: null, startY: touch.clientY, offsetY: 0 };
+
+  const rect = card.getBoundingClientRect();
+  dragState.offsetY = touch.clientY - rect.top;
+
+  const clone = card.cloneNode(true);
+  clone.style.cssText = `position:fixed;left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;opacity:0.85;z-index:9999;pointer-events:none;box-shadow:0 12px 40px rgba(0,0,0,0.2);transition:none;border-radius:14px;`;
+  document.body.appendChild(clone);
+  dragState.clone = clone;
+  card.setAttribute('data-drag-active', 'true');
+
+  document.addEventListener('touchmove', onDragMoveTouch, { passive: false });
+  document.addEventListener('touchend', onDragEndTouch);
+}
+
+function onDragMove(e) {
+  if (!dragState) return;
+  const y = e.clientY;
+  dragState.clone.style.top = (y - dragState.offsetY) + 'px';
+  highlightDropTarget(e.clientX, y);
+}
+
+function onDragMoveTouch(e) {
+  if (!dragState) return;
+  e.preventDefault();
+  const touch = e.touches[0];
+  const y = touch.clientY;
+  dragState.clone.style.top = (y - dragState.offsetY) + 'px';
+  highlightDropTarget(touch.clientX, y);
+}
+
+function highlightDropTarget(x, y) {
+  const panel = document.getElementById('day-' + dragState.dayKey);
+  if (!panel) return;
+  const cards = panel.querySelectorAll('.block-card[data-block-id]');
+  cards.forEach(c => c.classList.remove('drag-over'));
+  const el = document.elementFromPoint(x, y);
+  if (!el) return;
+  const targetCard = el.closest('.block-card[data-block-id]');
+  if (targetCard && targetCard !== dragState.sourceCard) {
+    targetCard.classList.add('drag-over');
+    dragState.targetCard = targetCard;
+  } else {
+    dragState.targetCard = null;
+  }
+}
+
+function onDragEnd(e) {
+  finishDrag();
+  document.removeEventListener('mousemove', onDragMove);
+  document.removeEventListener('mouseup', onDragEnd);
+}
+
+function onDragEndTouch(e) {
+  finishDrag();
+  document.removeEventListener('touchmove', onDragMoveTouch);
+  document.removeEventListener('touchend', onDragEndTouch);
+}
+
+function finishDrag() {
+  if (!dragState) return;
+
+  const { blockId, dayKey, sourceCard, clone, targetCard } = dragState;
+
+  if (clone) clone.remove();
+  if (sourceCard) sourceCard.removeAttribute('data-drag-active');
+
+  // Clear highlights
+  const panel = document.getElementById('day-' + dayKey);
+  if (panel) panel.querySelectorAll('.block-card').forEach(c => c.classList.remove('drag-over'));
+
+  if (targetCard && targetCard !== sourceCard) {
+    const targetId = targetCard.dataset.blockId;
+    const w = getActiveWeek();
+    if (w) {
+      const blocks = w.days[dayKey].blocks;
+      const fromIdx = blocks.findIndex(b => b.id === blockId);
+      const toIdx   = blocks.findIndex(b => b.id === targetId);
+      if (fromIdx !== -1 && toIdx !== -1) {
+        const [moved] = blocks.splice(fromIdx, 1);
+        blocks.splice(toIdx, 0, moved);
+        save();
+        renderDay(dayKey);
+        toast('Bloco reordenado! ✨');
+      }
+    }
+  }
+
+  dragState = null;
+}
+
+// ===== RENDER =====
+function renderAll() {
+  renderWeekList();
+  const w = getActiveWeek();
+  const planner = document.getElementById('planner-area');
+  const empty   = document.getElementById('empty-state');
+  const meta    = document.getElementById('week-meta');
+  if (!w) { planner.style.display='none'; empty.style.display='block'; meta.style.display='none'; return; }
+  planner.style.display='block'; empty.style.display='none'; meta.style.display='grid';
+  document.getElementById('meta-prof').value  = w.prof  || '';
+  document.getElementById('meta-turma').value = w.turma || '';
+  document.getElementById('meta-num').value   = w.num   || '';
+  DAYS.forEach(d => renderDay(d));
+  switchDay(state.activeDay);
+}
+
+function renderWeekList() {
+  const container = document.getElementById('week-list');
+  container.innerHTML = '';
+  state.weeks.forEach(w => {
+    const chip = document.createElement('div');
+    chip.className = 'week-chip' + (w.id === state.activeWeek ? ' active' : '');
+    const label = document.createElement('span');
+    label.textContent = 'Semana ' + w.num;
+    label.onclick = () => selectWeek(w.id);
+    label.style.cursor = 'pointer';
+    chip.appendChild(label);
+    const del = document.createElement('button');
+    del.className = 'btn btn-danger';
+    del.textContent = '✕';
+    del.style.cssText = 'margin-left:6px;padding:2px 7px;font-size:0.7rem;border-radius:10px;';
+    del.onclick = (e) => deleteWeek(w.id, e);
+    chip.appendChild(del);
+    container.appendChild(chip);
+  });
+  const addBtn = document.createElement('button');
+  addBtn.className = 'btn-new-week'; addBtn.textContent = '+ Nova semana';
+  addBtn.onclick = openNewWeek; container.appendChild(addBtn);
+}
+
+function renderDay(dayKey) {
+  const w = getActiveWeek();
+  const panel = document.getElementById('day-' + dayKey);
+  if (!w || !panel) return;
+  const day = w.days[dayKey];
+  let html = `
+    <div class="day-date-row">
+      <div class="field-group">
+        <label>📅 Data do dia</label>
+        <input type="date" value="${day.date||''}" onchange="updateDayDate('${dayKey}',this.value)">
+      </div>
+      <div class="field-group" style="align-self:flex-end">
+        <div style="font-size:0.8rem;color:var(--muted);padding-bottom:6px;">${formatDate(day.date)}</div>
+      </div>
+    </div>
+  `;
+  day.blocks.forEach(block => {
+    const isLocked = block.locked;
+    html += `
+      <div class="block-card" data-block-id="${block.id}">
+        <div class="block-header">
+          <div class="block-title-row">
+            <span class="drag-handle" title="Arraste para reordenar">⠿</span>
+            <span class="block-icon" title="Clique para trocar ícone" style="cursor:pointer;padding:2px 4px;border-radius:6px;transition:background 0.15s;" onmouseenter="this.style.background='rgba(122,79,168,0.1)'" onmouseleave="this.style.background=''" onclick="openIconPicker('${dayKey}','${block.id}')">${block.icon||'📝'}</span>
+            <input class="block-name-input" type="text" value="${esc(block.name)}"
+              ${isLocked ? 'readonly style="cursor:default;color:#888;"' : ''}
+              onchange="updateBlock('${dayKey}','${block.id}','name',this.value)"
+              placeholder="Nome do bloco">
+            ${isLocked ? '<span style="font-size:0.65rem;color:#bbb;padding:2px 6px;background:#f5f5f5;border-radius:8px;">fixo</span>' : ''}
+          </div>
+          <div class="block-time-row">
+            <input class="time-input" type="text" value="${esc(block.timeStart)}" placeholder="00:00"
+              onchange="updateBlock('${dayKey}','${block.id}','timeStart',this.value)">
+            <span>–</span>
+            <input class="time-input" type="text" value="${esc(block.timeEnd)}" placeholder="00:00"
+              onchange="updateBlock('${dayKey}','${block.id}','timeEnd',this.value)">
+          </div>
+          <button class="block-remove" onclick="removeBlock('${dayKey}','${block.id}')" title="Remover bloco"
+            ${isLocked ? 'style="opacity:0.3;cursor:not-allowed;"' : ''}>✕</button>
+        </div>
+        <div class="block-body">
+          <textarea class="block-desc" placeholder="Descreva as atividades desse bloco..."
+            onchange="updateBlock('${dayKey}','${block.id}','desc',this.value)">${esc(block.desc)}</textarea>
+        </div>
+      </div>
+    `;
+  });
+  html += `<button class="add-block-btn" onclick="addBlock('${dayKey}')">+ Adicionar bloco</button>`;
+  panel.innerHTML = html;
+  initDragDrop(dayKey);
+}
+
+function esc(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  try { const d = new Date(dateStr+'T12:00:00'); return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}); } catch(e) { return ''; }
+}
+function formatDateRange(s, e) {
+  const sf = s ? formatDate(s) : '', ef = e ? formatDate(e) : '';
+  if (sf && ef) return sf + ' até ' + ef; return sf || ef;
+}
+
+// ===== DARK MODE =====
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle('dark-mode');
+  const btn = document.getElementById('btn-dark-toggle');
+  btn.textContent = isDark ? '☀️' : '🌙';
+  btn.title = isDark ? 'Alternar para tema claro' : 'Alternar para tema escuro';
+  try { localStorage.setItem('planTheme_g4', isDark ? 'dark' : 'light'); } catch(e){}
+}
+function loadTheme() {
+  try {
+    const saved = localStorage.getItem('planTheme_g4');
+    if (saved === 'dark') {
+      document.body.classList.add('dark-mode');
+      const btn = document.getElementById('btn-dark-toggle');
+      if (btn) { btn.textContent = '☀️'; btn.title = 'Alternar para tema claro'; }
+    }
+  } catch(e){}
+}
+
+// ===== ICON PICKER =====
+const ALL_ICONS = [
+  '📝','✏️','📖','📚','🎨','🖌️','🎭','🎪','🎬','🎵','🎶','🎤',
+  '🤝','👋','💬','🗣️','👥','🌟','⭐','✨','💫','🌈','🌸','🌺',
+  '🌻','🌷','🌼','🍀','🌿','🌱','🌲','🌳','🦋','🐝','🐛','🐞',
+  '🍎','🍊','🍋','🍇','🍓','🥝','🍕','🍔','🥗','🥪','🧁','🎂',
+  '☀️','🌤️','⛅','🌙','⭐','❄️','🌊','💧','🔥','🌬️','🌈','⚡',
+  '🏃','🤸','⚽','🏀','🎾','🏊','🚴','🤾','🏋️','🎯','🎲','♟️',
+  '🔬','🔭','⚗️','🧪','🧫','📐','📏','🔧','🔨','⚙️','🖥️','📱',
+  '🎓','🏫','📋','📊','📈','📅','🗓️','📌','📍','🗂️','📂','📁',
+  '❤️','🧡','💛','💚','💙','💜','🖤','🤍','💝','💖','💗','💓',
+  '🌍','🌎','🌏','🗺️','✈️','🚀','🛸','⛵','🚂','🚌','🚗','🏠',
+  '🦁','🐯','🐻','🐼','🦊','🐰','🐸','🦄','🐬','🦁','🐧','🦅',
+  '⚽','🏀','🎭','🎪','🎨','🎵','📚','🏆','🥇','🎖️','🏅','🎗️',
+  '🧠','💡','🔑','🗝️','🎁','🎀','🎊','🎉','🎈','🪄','🧩','🎮',
+  '📦','🧺','🧹','🛁','🪥','🧴','🪴','🧸','🪆','🎠','🎡','🎢',
+  '🍕','🍦','🎂','🧁','🍰','☕','🧃','🥛','🍼','🍭','🍬','🍫',
+];
+let iconPickerTarget = null;
+let allIconsFiltered = [...ALL_ICONS];
+
+function openIconPicker(dayKey, blockId) {
+  iconPickerTarget = { dayKey, blockId };
+  document.getElementById('icon-search').value = '';
+  document.getElementById('icon-custom-input').value = '';
+  allIconsFiltered = [...ALL_ICONS];
+  renderIconGrid(ALL_ICONS);
+  document.getElementById('icon-picker-overlay').classList.add('open');
+}
+
+function closeIconPicker() {
+  document.getElementById('icon-picker-overlay').classList.remove('open');
+  iconPickerTarget = null;
+}
+
+function renderIconGrid(icons) {
+  const grid = document.getElementById('icon-grid');
+  grid.innerHTML = icons.map(ic =>
+    `<button class="icon-btn" onclick="applyIcon('${ic}')" title="${ic}">${ic}</button>`
+  ).join('');
+}
+
+function filterIcons() {
+  const q = document.getElementById('icon-search').value.trim().toLowerCase();
+  if (!q) { renderIconGrid(ALL_ICONS); return; }
+  // Basic name matching — search within icon unicode name isn't available,
+  // so we just show all if query is empty, or try to match emoji by pasting
+  const filtered = ALL_ICONS.filter(ic => ic.includes(q));
+  renderIconGrid(filtered.length ? filtered : ALL_ICONS);
+}
+
+function applyIcon(icon) {
+  if (!iconPickerTarget) return;
+  const { dayKey, blockId } = iconPickerTarget;
+  updateBlock(dayKey, blockId, 'icon', icon);
+  renderDay(dayKey);
+  closeIconPicker();
+  toast('Ícone atualizado! ' + icon);
+}
+
+function applyCustomIcon() {
+  const val = document.getElementById('icon-custom-input').value.trim();
+  if (!val) { toast('Cole um emoji no campo!'); return; }
+  applyIcon(val);
+}
+
+// ===== SHARE MODAL =====
+function openShareModal() {
+  if (state.weeks.length === 0) { toast('Nenhuma semana para exportar!'); return; }
+
+  // Simple tab — week selector
+  const select = document.getElementById('simple-week-select');
+  select.innerHTML = '';
+  state.weeks.forEach(w => {
+    const opt = document.createElement('option');
+    opt.value = w.id;
+    opt.textContent = 'Semana ' + w.num;
+    select.appendChild(opt);
+  });
+  // Default: active week
+  if (state.activeWeek) select.value = state.activeWeek;
+
+  // Modular tab — week checkboxes
+  const list = document.getElementById('modular-week-list');
+  list.innerHTML = '';
+  state.weeks.forEach(w => {
+    const chip = document.createElement('label');
+    chip.className = 'week-check-chip';
+    chip.innerHTML = `<input type="checkbox" value="${w.id}"> Semana ${w.num}`;
+    chip.querySelector('input').addEventListener('change', function() {
+      chip.classList.toggle('checked', this.checked);
+    });
+    list.appendChild(chip);
+  });
+
+  document.getElementById('modal-share').classList.add('open');
+}
+
+// ===== LAYOUT SELECTION =====
+let selectedLayout = 'compact';
+function selectLayout(el, layout) {
+  document.querySelectorAll('.layout-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedLayout = layout;
+}
+
+// ===== PRINT (Simple — opens browser dialog) =====
+function doSimplePrint() {
+  const id = document.getElementById('simple-week-select').value;
+  closeModal('modal-share');
+  buildSimplePrintPreview(id);
+  setTimeout(() => window.print(), 300);
+}
+
+function buildSimplePrintPreview(weekId) {
+  const container = document.getElementById('print-preview');
+  container.innerHTML = '';
+  const week = state.weeks.find(w => w.id === weekId);
+  if (!week) return;
+  const original = state.weeks;
+  state.weeks = [week];
+  buildPrintPreview();
+  state.weeks = original;
+}
+
+function doModularPDF() {
+  const selected = [...document.querySelectorAll('#modular-week-list input:checked')].map(i => i.value);
+  if (selected.length === 0) { toast('Selecione pelo menos uma semana!'); return; }
+  closeModal('modal-share');
+  buildModularPrintPreview(selectedLayout, selected);
+  setTimeout(() => window.print(), 300);
+}
+
+function buildModularPrintPreview(layout, weekIds) {
+  const container = document.getElementById('print-preview');
+  container.innerHTML = '';
+  const weeks = state.weeks.filter(w => weekIds.includes(w.id));
+
+  if (layout === 'compact') {
+    // Use the standard layout (best existing model)
+    const original = state.weeks;
+    state.weeks = weeks;
+    buildPrintPreview();
+    state.weeks = original;
+    return;
+  }
+
+  if (layout === 'detailed') {
+    // Detailed layout: one day per page, more space for content
+    weeks.forEach(w => {
+      DAYS.forEach(dayKey => {
+        const day = w.days[dayKey];
+        const pageDiv = document.createElement('div');
+        pageDiv.className = 'print-week';
+        pageDiv.style.cssText = 'page-break-after: always;';
+
+        let blocksHTML = day.blocks.map(b => {
+          const timeStr = b.timeStart ? (b.timeStart + (b.timeEnd ? '–' + b.timeEnd : '')) : '';
+          return `<div class="print-block" style="padding:14pt 16pt;margin-bottom:4pt;border-radius:0 8pt 8pt 0;">
+            <div class="print-block-title">
+              <span class="print-block-name">${b.icon||''} ${b.name||''}</span>
+              ${timeStr ? `<span class="print-block-time">${timeStr}</span>` : ''}
+            </div>
+            ${b.desc ? `<div class="print-block-desc" style="font-size:10.5pt;margin-top:6pt;line-height:1.8;">${b.desc.replace(/\n/g,'<br>')}</div>` : '<div style="height:40pt;"></div>'}
+          </div>`;
+        }).join('');
+
+        pageDiv.innerHTML = `
+          <div class="print-week-title">
+            <div class="pw-left">
+              <strong>🌸 Semana ${w.num} — ${DAY_NAMES[dayKey]}</strong>
+              <small>${formatDate(day.date)} | Professora: ${w.prof||''} | Turma: ${w.turma||''}</small>
+            </div>
+          </div>
+          <div class="print-day" data-d="${dayKey}">
+            <div class="print-day-header">${DAY_ICONS[dayKey]} ${DAY_NAMES[dayKey]}<div class="print-day-date">${formatDate(day.date)}</div></div>
+            <div class="print-blocks">${blocksHTML}</div>
+          </div>
+          <div class="print-deco">🌸 🦋 🌺 🦋 🌸</div>
+        `;
+        container.appendChild(pageDiv);
+      });
+    });
+    return;
+  }
+
+  if (layout === 'horizontal') {
+    // Horizontal layout: all days in 5 columns (landscape)
+    weeks.forEach(w => {
+      const weekDiv = document.createElement('div');
+      weekDiv.className = 'print-week';
+      weekDiv.style.cssText = 'page-break-after: always;';
+      weekDiv.innerHTML = `
+        <div class="print-week-title">
+          <div class="pw-left">
+            <strong>🌸 Planejamento Semanal — Semana ${w.num}</strong>
+            <small>${formatDateRange(w.start, w.end)}</small>
+          </div>
+          <div class="print-school-info">Professora: <strong>${w.prof||''}</strong><br>Turma: ${w.turma||''}</div>
+        </div>
+      `;
+      const grid = document.createElement('div');
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(5,1fr);gap:6pt;margin-top:6pt;';
+
+      DAYS.forEach(dayKey => {
+        const day = w.days[dayKey];
+        const col = document.createElement('div');
+        col.setAttribute('data-d', dayKey);
+        let blocksHTML = day.blocks.map(b => {
+          const timeStr = b.timeStart ? (b.timeStart + (b.timeEnd ? '–' + b.timeEnd : '')) : '';
+          return `<div class="print-block" style="padding:5pt 7pt;">
+            <div style="font-weight:700;font-size:8.5pt;">${b.icon||''} ${b.name||''}</div>
+            ${timeStr ? `<div style="font-size:7.5pt;color:#666;">${timeStr}</div>` : ''}
+            ${b.desc ? `<div style="font-size:7pt;margin-top:3pt;line-height:1.5;">${b.desc.replace(/\n/g,'<br>')}</div>` : ''}
+          </div>`;
+        }).join('');
+        col.innerHTML = `
+          <div class="print-day-header" style="font-size:9pt;padding:4pt 8pt;">${DAY_ICONS[dayKey]} ${DAY_NAMES[dayKey]}<div class="print-day-date" style="font-size:7pt;">${formatDate(day.date)}</div></div>
+          <div class="print-blocks">${blocksHTML}</div>
+        `;
+        grid.appendChild(col);
+      });
+
+      weekDiv.appendChild(grid);
+      weekDiv.innerHTML += `<div class="print-deco">🌸 🦋 🌺 🦋 🌸</div>`;
+      container.appendChild(weekDiv);
+    });
+    return;
+  }
+}
+function buildPrintPreview() {
+  const container = document.getElementById('print-preview');
+  container.innerHTML = '';
+
+  state.weeks.forEach(w => {
+    const weekDiv = document.createElement('div');
+    weekDiv.className = 'print-week';
+
+    weekDiv.innerHTML = `
+      <div class="print-week-title">
+        <div class="pw-left">
+          <strong>🌸 Planejamento Semanal — Semana ${w.num}</strong>
+          <small>${formatDateRange(w.start, w.end)}</small>
+        </div>
+        <div class="print-school-info">
+          Professora: <strong>${w.prof||''}</strong><br>
+          Turma: ${w.turma||''}
+        </div>
+      </div>
+    `;
+
+    const grid = document.createElement('div');
+    grid.className = 'print-days-grid';
+
+    DAYS.forEach(dayKey => {
+      const day = w.days[dayKey];
+      const dayDiv = document.createElement('div');
+      dayDiv.className = 'print-day';
+      dayDiv.setAttribute('data-d', dayKey);
+
+      const blocksHTML = day.blocks.map(b => {
+        const timeStr = b.timeStart ? (b.timeStart + (b.timeEnd ? '–' + b.timeEnd : '')) : '';
+        return `
+          <div class="print-block">
+            <div class="print-block-title">
+              <span class="print-block-name">${b.icon||''} ${b.name||''}</span>
+              ${timeStr ? `<span class="print-block-time">${timeStr}</span>` : ''}
+            </div>
+            ${b.desc ? `<div class="print-block-desc">${b.desc.replace(/\n/g,'<br>')}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      dayDiv.innerHTML = `
+        <div class="print-day-header">
+          ${DAY_ICONS[dayKey]} ${DAY_NAMES[dayKey]}
+          <div class="print-day-date">${formatDate(day.date)}</div>
+        </div>
+        <div class="print-blocks">${blocksHTML}</div>
+      `;
+      grid.appendChild(dayDiv);
+    });
+
+    weekDiv.appendChild(grid);
+    weekDiv.innerHTML += `<div class="print-deco">🌸 🦋 🌺 🦋 🌸</div>`;
+    container.appendChild(weekDiv);
+  });
+}
+
+// ===== TOAST =====
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ===== INIT =====
+load();
+loadTheme();
+renderAll();
+
+function switchExportTab(tab){
+document.querySelectorAll('.export-tab').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.export-tab-content').forEach(c=>c.classList.remove('active'));
+document.querySelector(`.export-tab[onclick*="${tab}"]`).classList.add('active');
+document.getElementById('tab-'+tab).classList.add('active');
+}
+
+
+</script>
+</body>
+</html>
